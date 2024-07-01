@@ -156,9 +156,9 @@
         ],
         "responses": {
           "200": {
-            "description": "gettableSilence",
+            "description": "gettableGrafanaSilence",
             "schema": {
-              "$ref": "#/definitions/gettableSilence"
+              "$ref": "#/definitions/gettableGrafanaSilence"
             }
           },
           "400": {
@@ -214,13 +214,25 @@
             },
             "name": "filter",
             "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Return rule metadata with silence.",
+            "name": "ruleMetadata",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Return access control metadata with silence.",
+            "name": "accesscontrol",
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "gettableSilences",
+            "description": "gettableGrafanaSilences",
             "schema": {
-              "$ref": "#/definitions/gettableSilences"
+              "$ref": "#/definitions/gettableGrafanaSilences"
             }
           },
           "400": {
@@ -838,6 +850,18 @@
               "type": "string"
             },
             "name": "filter",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Return rule metadata with silence.",
+            "name": "ruleMetadata",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Return access control metadata with silence.",
+            "name": "accesscontrol",
             "in": "query"
           },
           {
@@ -7195,6 +7219,20 @@
         }
       }
     },
+    "SilenceMetadata": {
+      "type": "object",
+      "properties": {
+        "folder_uid": {
+          "type": "string"
+        },
+        "rule_title": {
+          "type": "string"
+        },
+        "rule_uid": {
+          "type": "string"
+        }
+      }
+    },
     "SlackAction": {
       "description": "See https://api.slack.com/docs/message-attachments#action_fields and https://api.slack.com/docs/message-buttons\nfor more information.",
       "type": "object",
@@ -7976,28 +8014,12 @@
       }
     },
     "alertGroup": {
-      "description": "AlertGroup alert group",
       "type": "object",
       "required": [
         "alerts",
         "labels",
         "receiver"
-      ],
-      "properties": {
-        "alerts": {
-          "description": "alerts",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/gettableAlert"
-          }
-        },
-        "labels": {
-          "$ref": "#/definitions/labelSet"
-        },
-        "receiver": {
-          "$ref": "#/definitions/receiver"
-        }
-      }
+      ]
     },
     "alertGroups": {
       "description": "AlertGroups alert groups",
@@ -8106,6 +8128,7 @@
       }
     },
     "gettableAlert": {
+      "description": "GettableAlert gettable alert",
       "type": "object",
       "required": [
         "labels",
@@ -8116,17 +8139,59 @@
         "startsAt",
         "status",
         "updatedAt"
-      ]
+      ],
+      "properties": {
+        "annotations": {
+          "$ref": "#/definitions/labelSet"
+        },
+        "endsAt": {
+          "description": "ends at",
+          "type": "string",
+          "format": "date-time"
+        },
+        "fingerprint": {
+          "description": "fingerprint",
+          "type": "string"
+        },
+        "generatorURL": {
+          "description": "generator URL\nFormat: uri",
+          "type": "string",
+          "format": "uri"
+        },
+        "labels": {
+          "$ref": "#/definitions/labelSet"
+        },
+        "receivers": {
+          "description": "receivers",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/receiver"
+          }
+        },
+        "startsAt": {
+          "description": "starts at",
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/alertStatus"
+        },
+        "updatedAt": {
+          "description": "updated at",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     },
     "gettableAlerts": {
+      "description": "GettableAlerts gettable alerts",
       "type": "array",
       "items": {
         "type": "object",
         "$ref": "#/definitions/gettableAlert"
       }
     },
-    "gettableSilence": {
-      "description": "GettableSilence gettable silence",
+    "gettableGrafanaSilence": {
       "type": "object",
       "required": [
         "comment",
@@ -8139,6 +8204,17 @@
         "updatedAt"
       ],
       "properties": {
+        "accessControl": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "example": {
+            "create": false,
+            "read": true,
+            "write": false
+          }
+        },
         "comment": {
           "description": "comment",
           "type": "string"
@@ -8159,6 +8235,9 @@
         "matchers": {
           "$ref": "#/definitions/matchers"
         },
+        "metadata": {
+          "$ref": "#/definitions/SilenceMetadata"
+        },
         "startsAt": {
           "description": "starts at",
           "type": "string",
@@ -8174,7 +8253,27 @@
         }
       }
     },
+    "gettableGrafanaSilences": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/gettableGrafanaSilence"
+      }
+    },
+    "gettableSilence": {
+      "type": "object",
+      "required": [
+        "comment",
+        "createdBy",
+        "endsAt",
+        "matchers",
+        "startsAt",
+        "id",
+        "status",
+        "updatedAt"
+      ]
+    },
     "gettableSilences": {
+      "description": "GettableSilences gettable silences",
       "type": "array",
       "items": {
         "type": "object",
@@ -8182,35 +8281,11 @@
       }
     },
     "integration": {
-      "description": "Integration integration",
       "type": "object",
       "required": [
         "name",
         "sendResolved"
-      ],
-      "properties": {
-        "lastNotifyAttempt": {
-          "description": "A timestamp indicating the last attempt to deliver a notification regardless of the outcome.\nFormat: date-time",
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastNotifyAttemptDuration": {
-          "description": "Duration of the last attempt to deliver a notification in humanized format (`1s` or `15ms`, etc).",
-          "type": "string"
-        },
-        "lastNotifyAttemptError": {
-          "description": "Error string for the last attempt to deliver a notification. Empty if the last attempt was successful.",
-          "type": "string"
-        },
-        "name": {
-          "description": "name",
-          "type": "string"
-        },
-        "sendResolved": {
-          "description": "send resolved",
-          "type": "boolean"
-        }
-      }
+      ]
     },
     "labelSet": {
       "description": "LabelSet label set",
@@ -8326,7 +8401,6 @@
       }
     },
     "postableSilence": {
-      "description": "PostableSilence postable silence",
       "type": "object",
       "required": [
         "comment",
@@ -8334,34 +8408,7 @@
         "endsAt",
         "matchers",
         "startsAt"
-      ],
-      "properties": {
-        "comment": {
-          "description": "comment",
-          "type": "string"
-        },
-        "createdBy": {
-          "description": "created by",
-          "type": "string"
-        },
-        "endsAt": {
-          "description": "ends at",
-          "type": "string",
-          "format": "date-time"
-        },
-        "id": {
-          "description": "id",
-          "type": "string"
-        },
-        "matchers": {
-          "$ref": "#/definitions/matchers"
-        },
-        "startsAt": {
-          "description": "starts at",
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+      ]
     },
     "receiver": {
       "type": "object",
