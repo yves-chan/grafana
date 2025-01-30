@@ -84,6 +84,10 @@ export class DashboardModelCompatibilityWrapper {
     return this._scene.state.meta;
   }
 
+  public get scene() {
+    return this._scene;
+  }
+
   public get time() {
     const time = sceneGraph.getTimeRange(this._scene);
     return {
