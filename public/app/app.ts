@@ -246,9 +246,7 @@ export class GrafanaApp {
         console.warn('Failed to clean up old expanded folders', err);
       }
 
-      // Instantiate the class and set up event listeners
-      const iframeCommunicationHandler = new IframeCommunicationHandler();
-      iframeCommunicationHandler.setupEventListeners();
+
 
       this.context = {
         backend: backendSrv,
@@ -266,6 +264,12 @@ export class GrafanaApp {
 
       if (config.featureToggles.crashDetection) {
         initializeCrashDetection();
+      }
+
+      if (window.self !== window.top) {
+        // Instantiate the class and set up event listeners
+        const iframeCommunicationHandler = new IframeCommunicationHandler();
+        iframeCommunicationHandler.setupEventListeners();
       }
 
       const root = createRoot(document.getElementById('reactRoot')!);

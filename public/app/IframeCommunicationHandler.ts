@@ -44,9 +44,12 @@ export class IframeCommunicationHandler {
           }
           break;
         case 'navigate':
-          const query = event.data.query;
-          if (query) {
-            locationService.partial(query, true);
+          console.log('navigate', event.data);
+          const { path, params } = event.data;
+          if (path) {
+            locationService.replace(path);
+          } else if (params) {
+            locationService.partial(params, true);
           }
           break;
         case 'theme':
@@ -55,12 +58,6 @@ export class IframeCommunicationHandler {
             changeTheme(theme);
           }
           break;
-        case 'explore':
-          // investigate explore more with kiosk mode
-          const path = event.data.path;
-          if (path) {
-            locationService.replace(path);
-          }
         default:
           console.warn('Unknown message type:', event.data.type);
       }
