@@ -4,7 +4,7 @@ import { NewThemeOptions } from '../createTheme';
  * Azure Portal light theme
  */
 const azureLight: NewThemeOptions = {
-  name: 'AzureLight',
+  name: 'azureLight',
   colors: {
     mode: 'light',
     background: {
