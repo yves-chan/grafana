@@ -1775,6 +1775,12 @@ var (
 			RequiresDevMode: false,
 			FrontendOnly:    true,
 		},
+		{
+			Name:            "azureEmbeddedGrafana",
+			Description:     "Sets up grafana for embedding inside Azure Portal",
+			Stage:           FeatureStageExperimental,
+			Owner:           "microsoft",
+		},
 	}
 )
 

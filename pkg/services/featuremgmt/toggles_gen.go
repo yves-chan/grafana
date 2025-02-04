@@ -958,4 +958,8 @@ const (
 	// FlagDatasourceConnectionsTab
 	// Shows defined connections for a data source in the plugins detail page
 	FlagDatasourceConnectionsTab = "datasourceConnectionsTab"
+
+	// FlagAzureEmbeddedGrafana
+	// Sets up grafana for embedding inside Azure Portal
+	FlagAzureEmbeddedGrafana = "azureEmbeddedGrafana"
 )
