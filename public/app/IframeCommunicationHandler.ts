@@ -3,6 +3,7 @@ import { getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 import { changeTheme } from './core/services/theme';
 import { DashboardModelCompatibilityWrapper } from './features/dashboard-scene/utils/DashboardModelCompatibilityWrapper';
+import { changeLanguage } from './core/internationalization';
 
 export class IframeCommunicationHandler {
   private messageListener: (event: MessageEvent) => void;
@@ -12,6 +13,9 @@ export class IframeCommunicationHandler {
   constructor() {
     // Define the message listener
     this.messageListener = this.handleMessage.bind(this);
+
+    // Let iframe container know grafana has started loading
+    parent.postMessage('IframeMounted', '*');
 
     locationService.getLocationObservable().subscribe(() => {
       const queryParams = locationService.getSearchObject();
@@ -49,6 +53,13 @@ export class IframeCommunicationHandler {
           console.log('theme', theme);
           if (theme) {
             changeTheme(theme);
+          }
+          break;
+        case 'changeLanguage':
+          const language = event.data.language;
+          console.log('language', language);
+          if (language) {
+            changeLanguage(language);
           }
           break;
         default:
