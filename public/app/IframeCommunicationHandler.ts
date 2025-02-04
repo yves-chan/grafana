@@ -2,7 +2,6 @@ import { locationService } from '@grafana/runtime';
 import { getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 import { changeTheme } from './core/services/theme';
-import { getDashboardSceneSerializer } from './features/dashboard-scene/serialization/DashboardSceneSerializer';
 import { DashboardModelCompatibilityWrapper } from './features/dashboard-scene/utils/DashboardModelCompatibilityWrapper';
 
 export class IframeCommunicationHandler {
@@ -33,15 +32,8 @@ export class IframeCommunicationHandler {
   private async handleMessage(event: MessageEvent) {
     if (event.data) {
       switch (event.data.type) {
-        case 'requestDashboardContent':
-          try {
-            const dashboardContent = await this.getDashboardContent();
-            console.log(dashboardContent);
-            const dashboardContentJson = JSON.stringify(dashboardContent);
-            parent.postMessage({ type: 'dashboardContent', content: dashboardContentJson }, event.origin);
-          } catch (error) {
-            parent.postMessage({ type: 'dashboardContentError', error: error }, event.origin);
-          }
+        case 'saveDashboard':
+          this.saveDashboard(event.origin);
           break;
         case 'navigate':
           console.log('navigate', event.data);
@@ -54,6 +46,7 @@ export class IframeCommunicationHandler {
           break;
         case 'theme':
           const theme = event.data.theme;
+          console.log('theme', theme);
           if (theme) {
             changeTheme(theme);
           }
@@ -64,13 +57,12 @@ export class IframeCommunicationHandler {
     }
   }
 
-  private async getDashboardContent() {
-    const dashboard = getDashboardSrv().getCurrent() as unknown as DashboardModelCompatibilityWrapper;
-    const dashboard2 = getDashboardSceneSerializer().getSaveModel(dashboard.scene);
-    if (dashboard2) {
-      console.log("dashboard2", dashboard2);
-      return dashboard2;
-    }
-    throw new Error('No dashboard is currently being edited');
+  private async saveDashboard(targetOrigin: string) {
+    // if the current dashboard is a scene, the getCurrent method will return a DashboardModelCompatibilityWrapper
+    const dashboardWrapper = getDashboardSrv().getCurrent() as unknown as DashboardModelCompatibilityWrapper;
+    const onSaveSuccess = () => {
+      parent.postMessage({ type: 'dashboardSave', content: 'success' }, targetOrigin);
+    };
+    dashboardWrapper.scene.openSaveDrawer({ saveAsCopy: false, onSaveSuccess });
   }
 }
