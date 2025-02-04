@@ -270,6 +270,7 @@ export class GrafanaApp {
         // Instantiate the class and set up event listeners
         const iframeCommunicationHandler = new IframeCommunicationHandler();
         iframeCommunicationHandler.setupEventListeners();
+        iframeCommunicationHandler.initializeIframe();
       }
 
       const root = createRoot(document.getElementById('reactRoot')!);

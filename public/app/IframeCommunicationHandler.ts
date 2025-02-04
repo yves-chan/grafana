@@ -14,15 +14,16 @@ export class IframeCommunicationHandler {
     // Define the message listener
     this.messageListener = this.handleMessage.bind(this);
 
-    // Let iframe container know grafana has started loading
-    parent.postMessage('IframeMounted', '*');
-
     locationService.getLocationObservable().subscribe(() => {
       const queryParams = locationService.getSearchObject();
       if (queryParams.editPanel) {
         parent.postMessage({ type: 'editMode', editMode: true }, '*');
       }
     });
+  }
+
+  initializeIframe() {
+    parent.postMessage('IframeMounted', '*');
   }
 
   setupEventListeners() {
