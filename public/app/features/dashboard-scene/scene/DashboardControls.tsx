@@ -59,7 +59,8 @@ export class DashboardControls extends SceneObjectBase<DashboardControlsState> {
     // Only allow hiding, never "unhiding" from url
     // Becasue this should really only change on first init it's fine to do multiple setState here
 
-    if (!hideTimeControls && isEnabledViaUrl('_dash.hideTimePicker') || config.featureToggles.azureEmbeddedGrafana) {
+    console.log("in updatefromurl", config.featureToggles.azureEmbeddedGrafana);
+    if (config.featureToggles.azureEmbeddedGrafana || (!hideTimeControls && isEnabledViaUrl('_dash.hideTimePicker'))) {
       this.setState({ hideTimeControls: true });
     }
 
