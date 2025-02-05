@@ -52,6 +52,7 @@ import { getStandardTransformers } from 'app/features/transformers/standardTrans
 import getDefaultMonacoLanguages from '../lib/monaco-languages';
 
 import { AppWrapper } from './AppWrapper';
+import { IframeCommunicationHandler } from './IframeCommunicationHandler';
 import appEvents from './core/app_events';
 import { AppChromeService } from './core/components/AppChrome/AppChromeService';
 import { getAllOptionEditors, getAllStandardFieldConfigs } from './core/components/OptionsUI/registry';
@@ -131,9 +132,6 @@ export class GrafanaApp {
 
   async init() {
     try {
-      // Let iframe container know grafana has started loading
-      parent.postMessage('GrafanaAppInit', '*');
-
       const initI18nPromise = initializeI18n(config.bootData.user.language);
       initI18nPromise.then(({ language }) => updateConfig({ language }));
 
@@ -248,6 +246,8 @@ export class GrafanaApp {
         console.warn('Failed to clean up old expanded folders', err);
       }
 
+
+
       this.context = {
         backend: backendSrv,
         location: locationService,
@@ -264,6 +264,13 @@ export class GrafanaApp {
 
       if (config.featureToggles.crashDetection) {
         initializeCrashDetection();
+      }
+
+      if (window.self !== window.top) {
+        // Instantiate the class and set up event listeners
+        const iframeCommunicationHandler = new IframeCommunicationHandler();
+        iframeCommunicationHandler.setupEventListeners();
+        iframeCommunicationHandler.initializeIframe();
       }
 
       const root = createRoot(document.getElementById('reactRoot')!);

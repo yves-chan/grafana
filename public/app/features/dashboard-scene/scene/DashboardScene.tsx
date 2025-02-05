@@ -325,6 +325,8 @@ export class DashboardScene extends SceneObjectBase<DashboardSceneState> {
     // No need to listen to changes anymore
     this._changeTracker.stopTrackingChanges();
 
+    console.log("initial url state", this._initialUrlState)
+
     // We are updating url and removing editview and editPanel.
     // The initial url may be including edit view, edit panel or inspect query params if the user pasted the url,
     // hence we need to cleanup those query params to get back to the dashboard view. Otherwise url sync can trigger overlays.

@@ -2,6 +2,7 @@ import { css, cx } from '@emotion/css';
 
 import { GrafanaTheme2, VariableHide } from '@grafana/data';
 import { selectors } from '@grafana/e2e-selectors';
+import { config } from '@grafana/runtime';
 import {
   SceneObjectState,
   SceneObject,
@@ -58,7 +59,8 @@ export class DashboardControls extends SceneObjectBase<DashboardControlsState> {
     // Only allow hiding, never "unhiding" from url
     // Becasue this should really only change on first init it's fine to do multiple setState here
 
-    if (!hideTimeControls && isEnabledViaUrl('_dash.hideTimePicker')) {
+    console.log("in updatefromurl", config.featureToggles.azureEmbeddedGrafana);
+    if (config.featureToggles.azureEmbeddedGrafana || (!hideTimeControls && isEnabledViaUrl('_dash.hideTimePicker'))) {
       this.setState({ hideTimeControls: true });
     }
 

@@ -682,6 +682,18 @@
     },
     {
       "metadata": {
+        "name": "azureEmbeddedGrafana",
+        "resourceVersion": "1738711514203",
+        "creationTimestamp": "2025-02-04T23:25:14Z"
+      },
+      "spec": {
+        "description": "Sets up grafana for embedding inside Azure Portal",
+        "stage": "experimental",
+        "codeowner": "microsoft"
+      }
+    },
+    {
+      "metadata": {
         "name": "azureMonitorDisableLogLimit",
         "resourceVersion": "1727698096407",
         "creationTimestamp": "2024-09-30T11:51:51Z",

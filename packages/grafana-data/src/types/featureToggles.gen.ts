@@ -256,4 +256,5 @@ export interface FeatureToggles {
   grafanaAdvisor?: boolean;
   elasticsearchImprovedParsing?: boolean;
   datasourceConnectionsTab?: boolean;
+  azureEmbeddedGrafana?: boolean;
 }

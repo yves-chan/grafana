@@ -83,6 +83,7 @@ export class HistoryWrapper implements LocationService {
     }
 
     const updatedUrl = urlUtil.renderUrl(currentLocation.pathname, newQuery);
+    console.log('updatedUrl', updatedUrl);
 
     if (replace) {
       this.history.replace(updatedUrl, this.history.location.state);

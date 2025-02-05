@@ -236,6 +236,7 @@ Experimental features might be changed or removed without prior notice.
 | `grafanaAdvisor`                              | Enables Advisor app                                                                                                                                                                                                                                                               |
 | `elasticsearchImprovedParsing`                | Enables less memory intensive Elasticsearch result parsing                                                                                                                                                                                                                        |
 | `datasourceConnectionsTab`                    | Shows defined connections for a data source in the plugins detail page                                                                                                                                                                                                            |
+| `azureEmbeddedGrafana`                        | Sets up grafana for embedding inside Azure Portal                                                                                                                                                                                                                                 |
 
 ## Development feature toggles
 

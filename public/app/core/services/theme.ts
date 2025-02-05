@@ -11,6 +11,7 @@ export async function changeTheme(themeId: string, runtimeOnly?: boolean) {
   const oldTheme = config.theme2;
 
   const newTheme = getThemeById(themeId);
+  console.log(newTheme);
 
   appEvents.publish(new ThemeChangedEvent(newTheme));
 

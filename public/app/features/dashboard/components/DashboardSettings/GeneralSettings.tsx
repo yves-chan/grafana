@@ -162,18 +162,20 @@ export function GeneralSettingsUnconnected({
             <TagsInput id="tags-input" tags={dashboard.tags} onChange={onTagsChange} width={40} />
           </Field>
 
-          <Field label={t('dashboard-settings.general.folder-label', 'Folder')}>
-            <FolderPicker
-              value={dashboard.meta.folderUid}
-              onChange={onFolderChange}
-              // TODO deprecated props that can be removed once NestedFolderPicker is enabled by default
-              initialTitle={dashboard.meta.folderTitle}
-              inputId="dashboard-folder-input"
-              enableCreateNew
-              dashboardId={dashboard.id}
-              skipInitialLoad
-            />
-          </Field>
+          {!config.featureToggles.azureEmbeddedGrafana &&
+            (<Field label={t('dashboard-settings.general.folder-label', 'Folder')}>
+              <FolderPicker
+                value={dashboard.meta.folderUid}
+                onChange={onFolderChange}
+                // TODO deprecated props that can be removed once NestedFolderPicker is enabled by default
+                initialTitle={dashboard.meta.folderTitle}
+                inputId="dashboard-folder-input"
+                enableCreateNew
+                dashboardId={dashboard.id}
+                skipInitialLoad
+              />
+            </Field>)
+          }
 
           <Field
             label={t('dashboard-settings.general.editable-label', 'Editable')}
