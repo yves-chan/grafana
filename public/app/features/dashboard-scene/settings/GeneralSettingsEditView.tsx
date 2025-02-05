@@ -222,17 +222,20 @@ export class GeneralSettingsEditView
             <Field label={t('dashboard-settings.general.tags-label', 'Tags')}>
               <TagsInput id="tags-input" tags={tags} onChange={model.onTagsChange} width={40} />
             </Field>
-            <Field label={t('dashboard-settings.general.folder-label', 'Folder')}>
-              <FolderPicker
-                value={meta.folderUid}
-                onChange={model.onFolderChange}
-                // TODO deprecated props that can be removed once NestedFolderPicker is enabled by default
-                initialTitle={meta.folderTitle}
-                inputId="dashboard-folder-input"
-                enableCreateNew
-                skipInitialLoad
-              />
-            </Field>
+
+            {!config.featureToggles.azureEmbeddedGrafana &&
+              (<Field label={t('dashboard-settings.general.folder-label', 'Folder')}>
+                <FolderPicker
+                  value={meta.folderUid}
+                  onChange={model.onFolderChange}
+                  // TODO deprecated props that can be removed once NestedFolderPicker is enabled by default
+                  initialTitle={meta.folderTitle}
+                  inputId="dashboard-folder-input"
+                  enableCreateNew
+                  skipInitialLoad
+                />
+              </Field>)
+            }
 
             <Field
               label={t('dashboard-settings.general.editable-label', 'Editable')}
