@@ -51,6 +51,7 @@ const themeRegistry = new Registry<ThemeRegistryItem>(() => {
 });
 
 for (const [id, theme] of Object.entries(extraThemes)) {
+  console.log("in themeRegistry", id, theme);
   themeRegistry.register({
     id,
     name: theme.name ?? '',

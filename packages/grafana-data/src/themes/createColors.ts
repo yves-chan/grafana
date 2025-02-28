@@ -5,7 +5,7 @@ import { palette } from './palette';
 import { DeepPartial, ThemeRichColor } from './types';
 
 /** @internal */
-export type ThemeColorsMode = 'light' | 'dark';
+export type ThemeColorsMode = 'light' | 'dark' | 'azureLight';
 
 /** @internal */
 export interface ThemeColorsBase<TColor> {

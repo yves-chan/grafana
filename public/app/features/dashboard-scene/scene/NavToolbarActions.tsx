@@ -95,6 +95,7 @@ export function ToolbarActions({ dashboard }: Props) {
         ? t('dashboard.toolbar.unmark-favorite', 'Unmark as favorite')
         : t('dashboard.toolbar.mark-favorite', 'Mark as favorite');
       return (
+        //TODO: if we wanted to have seperate Azure themed buttons, might have to make edits here?
         <ToolbarButton
           tooltip={desc}
           icon={
@@ -135,6 +136,7 @@ export function ToolbarActions({ dashboard }: Props) {
     group: 'icon-actions',
     condition: isDevEnv && uid && isShowingDashboard && !isEditing,
     render: () => (
+      //TODO: introduce flag here to show different button?
       <ToolbarButton
         key="view-in-old-dashboard-button"
         tooltip={'Switch to old dashboard page'}

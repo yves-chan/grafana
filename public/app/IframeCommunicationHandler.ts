@@ -37,7 +37,7 @@ export class IframeCommunicationHandler {
   }
 
   initializeIframe() {
-    parent.postMessage('IframeMounted', '*');
+    parent.postMessage({ type:'iframeMounted' }, '*');
   }
 
   setupEventListeners() {
@@ -70,7 +70,7 @@ export class IframeCommunicationHandler {
           const theme = event.data.theme;
           console.log('theme', theme);
           if (theme) {
-            changeTheme(theme);
+            changeTheme(theme, true);
           }
           break;
         case 'changeLanguage':

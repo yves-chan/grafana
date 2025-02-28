@@ -6,7 +6,7 @@ import { NewThemeOptions } from '../createTheme';
 const azureLight: NewThemeOptions = {
   name: 'azureLight',
   colors: {
-    mode: 'light',
+    mode: 'azureLight',
     background: {
       canvas: '#f3f2f1', // Light gray background
       primary: '#ffffff', // White primary background
@@ -49,9 +49,9 @@ const azureLight: NewThemeOptions = {
       shade: '#d83b01', // Red error shade
     },
     action: {
-      hover: '#005a9e', // Darker Azure blue for hover
-      focus: '#004578', // Even darker Azure blue for focus
-      selected: '#003366', // Darkest Azure blue for selected
+      hover: '#b3d6f2', 
+      focus: '#004578', 
+      selected: '#b3d7f2', 
     },
   },
   shape: {
@@ -59,6 +59,16 @@ const azureLight: NewThemeOptions = {
   },
   spacing: {
     gridSize: 8, // Consistent spacing with Azure Portal
+  },
+  typography: {
+    fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',
+    fontFamilyMonospace: 'Consolas, "Liberation Mono", Menlo, Courier, monospace',
+    fontSize: 14,
+    fontWeightLight: 300, // Light font weight
+    fontWeightRegular: 400, // Regular font weight
+    fontWeightMedium: 500, // Medium font weight
+    fontWeightBold: 700, // Bold font weight
+    htmlFontSize: 12, 
   },
 };
 
