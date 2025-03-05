@@ -146,6 +146,7 @@ export interface BootData {
   assets: {
     light: string;
     dark: string;
+    azureLight: string;
   };
 }
 

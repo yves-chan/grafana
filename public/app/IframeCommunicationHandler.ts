@@ -4,11 +4,11 @@ import { getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 import appEvents from './core/app_events';
 import { changeLanguage } from './core/internationalization';
 import { changeTheme } from './core/services/theme';
+import { DashboardScene } from './features/dashboard-scene/scene/DashboardScene';
+import { DashboardModelCompatibilityWrapper } from './features/dashboard-scene/utils/DashboardModelCompatibilityWrapper';
 import { discardPanelChanges } from './features/dashboard/components/PanelEditor/state/actions';
 import { SaveDashboardDrawer } from './features/dashboard/components/SaveDashboard/SaveDashboardDrawer';
 import { DashboardModel } from './features/dashboard/state/DashboardModel';
-import { DashboardScene } from './features/dashboard-scene/scene/DashboardScene';
-import { DashboardModelCompatibilityWrapper } from './features/dashboard-scene/utils/DashboardModelCompatibilityWrapper';
 import { ShowModalReactEvent } from './types/events';
 
 export class IframeCommunicationHandler {
@@ -52,7 +52,8 @@ export class IframeCommunicationHandler {
     if (event.data) {
       switch (event.data.type) {
         case 'saveDashboard':
-          this.saveDashboard(event.origin);
+          const {saveAsCopy} = event.data;
+          this.saveDashboard(event.origin, saveAsCopy);
           break;
         case 'discardPanelChanges':
           this.discardPanelChanges(event.origin);
